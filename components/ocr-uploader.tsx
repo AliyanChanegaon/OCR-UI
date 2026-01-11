@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { config } from '../config';
 
 import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
@@ -24,6 +25,7 @@ export default function OCRUploader() {
   const [result, setResult] = useState<OCRResponse | null>(null)
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const OCR_API_URL = config.OCR_API_URL!;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0]
@@ -56,7 +58,7 @@ export default function OCRUploader() {
       const formData = new FormData()
       formData.append("file", file)
 
-      const response = await fetch("http://localhost:3000/v1/ocr", {
+      const response = await fetch(OCR_API_URL, {
         method: "POST",
         body: formData,
       })
